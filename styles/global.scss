@@ -1,0 +1,28 @@
+@import "bem";
+@import "fonts";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #ffffff;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: #282830;
+  font-size: 20px;
+  overflow: hidden;
+}
+
+header, aside, footer, article, main, section, nav {
+  display: block;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}

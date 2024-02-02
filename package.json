@@ -1,0 +1,32 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "3000"
+    }
+  },
+  "devDependencies": {
+    "@types/hammerjs": "^2.0.45",
+    "nuxt": "^3.9.3",
+    "sass": "^1.70.0",
+    "vue": "^3.4.14",
+    "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.5.1",
+    "@vueuse/nuxt": "^10.7.2",
+    "gsap": "^3.12.5",
+    "hammerjs": "^2.0.8",
+    "pinia": "^2.1.7"
+  }
+}
