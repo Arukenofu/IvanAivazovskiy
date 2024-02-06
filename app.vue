@@ -13,6 +13,57 @@ onMounted(async () => {
 
   await new Promise(resolve => setTimeout(resolve, 3000))
 
+
+  const images: Array<string> = [
+    '/200th.png',
+    '/academy-art.png',
+    '/add.jpg',
+    '/admiral.jpg',
+    '/aiva.jpg',
+    '/alexander.jpg',
+    '/amster.jpg',
+    '/background.jpg',
+    '/boat.jpg',
+    '/brak.jpg',
+    '/brak2.jpg',
+    '/childhood.jpg',
+    '/crimea-and-europe.jpg',
+    '/death.jpg',
+    '/favicon.ico',
+    '/favicon-196x196.png',
+    '/feodosia.jpg',
+    '/flit.jpg',
+    '/gymnazy.jpg',
+    '/imperial-academy-of-arts.jpg',
+    '/kartina.jpg',
+    '/krim1.jpg',
+    '/krim2.jpg',
+    'last-years.jpg',
+    '/mama.jpg',
+    '/money.png',
+    '/nikolay.jpg',
+    '/papa.jpg',
+    '/paris.jpg',
+    '/professor.jpg',
+    '/return-to-russia.jpg',
+    '/terner.jpg',
+    '/timeline.jpg',
+    '/vistav.jpg',
+    '/waterfall.jpg',
+    '/woln.jpg',
+    '/zapad.jpg'
+  ];
+
+  function preloadImages(url: string[])
+  {
+    for (let i = 0; i < url.length; i++) {
+      let img = new Image();
+      img.src= url[i];
+    }
+  }
+
+  preloadImages(images)
+
   const gradualIncrease = (): void => {
     const increase = async (): Promise<void> => {
       if (loadingProgressOpacity.value <= 1) {
