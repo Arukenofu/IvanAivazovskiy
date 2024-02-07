@@ -21,13 +21,13 @@ const color = defineModel<string>('color')
 .navigation {
   margin-top: 35px;
   letter-spacing: .2vw;
-  font-size: .65em;
   display: flex;
   gap: 9px;
   z-index: 2;
 
   a {
     text-decoration: none;
+    font-size: .9rem;
 
     &:hover {
       color: #a1907f;

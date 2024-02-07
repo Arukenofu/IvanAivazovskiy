@@ -13,7 +13,6 @@ onMounted(async () => {
 
   await new Promise(resolve => setTimeout(resolve, 3000))
 
-
   const images: Array<string> = [
     '/200th.png',
     '/academy-art.png',
@@ -53,16 +52,6 @@ onMounted(async () => {
     '/woln.jpg',
     '/zapad.jpg'
   ];
-
-  function preloadImages(url: string[])
-  {
-    for (let i = 0; i < url.length; i++) {
-      let img = new Image();
-      img.src= url[i];
-    }
-  }
-
-  preloadImages(images)
 
   const gradualIncrease = (): void => {
     const increase = async (): Promise<void> => {

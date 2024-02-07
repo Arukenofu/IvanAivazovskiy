@@ -94,14 +94,24 @@ const scroll = ref<HTMLElement>()
 function horizontalWheel(container: HTMLElement) {
   let scrollWidth: number;
 
-  let targetLeft : number;
+  let targetLeft: number;
 
-  function scrollLeft() {
+  function scrollLeft(isMouse: boolean) {
     let beforeLeft = container.scrollLeft;
-    let diff = targetLeft - container.scrollLeft;
-    let dX = 200 >= Math.abs(diff) ? diff : Math.sign(diff) * 500;
 
-    container.scrollBy(dX, 0);
+    let diff = targetLeft - container.scrollLeft;
+    let dX = 100 >= Math.abs(diff) ? diff : Math.sign(diff) * 500;
+
+    if (isMouse) {
+      container.scrollBy({
+        left: dX,
+        behavior: "smooth"
+      });
+    } else {
+      container.scrollBy({
+        left: dX/2
+      });
+    }
 
     if (dX === diff)
       return;
@@ -109,16 +119,20 @@ function horizontalWheel(container: HTMLElement) {
     if (beforeLeft === container.scrollLeft || container.scrollLeft === targetLeft)
       return;
 
-    requestAnimationFrame(scrollLeft);
+    requestAnimationFrame(() => scrollLeft);
   }
 
-  container.addEventListener('wheel', e => {
+  container.addEventListener('wheel', (e: WheelEvent) => {
     e.preventDefault();
+
+    let isMouse = !(e.deltaX === 0 && !Number.isInteger(e.deltaY))
 
     scrollWidth = container.scrollWidth - container.clientWidth;
     targetLeft = Math.min(scrollWidth, Math.max(0, container.scrollLeft + e.deltaY));
 
-    requestAnimationFrame(scrollLeft);
+    requestAnimationFrame(() => {
+      scrollLeft(isMouse)
+    });
   });
 }
 
@@ -133,12 +147,23 @@ onMounted(async () => {
     delay: 0.5,
   })
 
-  gsap.from('aside', {
-    opacity: 0,
-    duration: 2,
-    delay: 1,
-    translateX: '-80%'
-  })
+  if (document.documentElement.clientWidth > 510) {
+
+    gsap.from('aside', {
+      opacity: 0,
+      duration: 2,
+      delay: 1,
+      translateX: '-80%'
+    })
+
+  } else {
+    gsap.from('aside', {
+      opacity: 0,
+      duration: 2,
+      delay: 1,
+      translateY: '80%'
+    })
+  }
 
 })
 
@@ -153,7 +178,15 @@ const routes: Array<string> = [
 
 const section = ref<HTMLElement>()
 
-const currentRoute = useState('storyRoute')
+const currentRoute = useState('storyRoute');
+
+const sectionPositionZero = (): void => {
+  section.value?.scrollTo({
+    left: 0,
+    behavior: "smooth"
+  });
+}
+
 </script>
 
 <template>
@@ -168,7 +201,7 @@ const currentRoute = useState('storyRoute')
     <section ref="section" class="swiper-wrapper">
       <aside>
         <ul>
-          <li @click="currentRoute = index; router.push(routes[index]);"
+          <li @click="sectionPositionZero(); currentRoute = index; router.push(routes[index]);"
               v-for="(rim, index) in rim"
               :class="(currentRoute === index) && 'active'"
           >
@@ -211,13 +244,12 @@ article {
     display: flex;
     align-items: center;
     -ms-overflow-style: none;
-    scroll-behavior: smooth;
     overflow-y: scroll;
     scrollbar-width: none;
 
     aside {
       position: fixed;
-      width: 5%;
+      width: 80px;
       height: 100vh;
       z-index: 2;
       background-color: #FFFFFF;
@@ -230,7 +262,7 @@ article {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 20px;
+        row-gap: 20px;
         font-size: 1rem;
 
         li {
@@ -299,6 +331,25 @@ article {
         .image-item {
           width: 100%;
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 510px) {
+  article section aside {
+    bottom: 0;
+    height: 80px;
+    width: 100vh;
+
+    ul {
+      flex-direction: row;
+
+      li {
+        height: 80px;
+        width: 80px;
+        display: grid;
+        place-items: center;
       }
     }
   }
