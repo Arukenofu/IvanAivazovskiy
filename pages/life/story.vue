@@ -346,8 +346,8 @@ article {
       flex-direction: row;
 
       li {
-        height: 80px;
-        width: 80px;
+        width: calc(100vw / 6);
+        aspect-ratio: 1/1;
         display: grid;
         place-items: center;
       }

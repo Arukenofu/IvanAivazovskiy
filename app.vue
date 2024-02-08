@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import gsap, {Power4} from "gsap";
+import gsap from "gsap";
 
 const loadingProgressOpacity: Ref<number> = ref(0.1);
 const isLoaded: Ref<boolean> = ref(false)
@@ -13,45 +13,45 @@ onMounted(async () => {
 
   await new Promise(resolve => setTimeout(resolve, 3000))
 
-  const images: Array<string> = [
-    '/200th.png',
-    '/academy-art.png',
-    '/add.jpg',
-    '/admiral.jpg',
-    '/aiva.jpg',
-    '/alexander.jpg',
-    '/amster.jpg',
-    '/background.jpg',
-    '/boat.jpg',
-    '/brak.jpg',
-    '/brak2.jpg',
-    '/childhood.jpg',
-    '/crimea-and-europe.jpg',
-    '/death.jpg',
-    '/favicon.ico',
-    '/favicon-196x196.png',
-    '/feodosia.jpg',
-    '/flit.jpg',
-    '/gymnazy.jpg',
-    '/imperial-academy-of-arts.jpg',
-    '/kartina.jpg',
-    '/krim1.jpg',
-    '/krim2.jpg',
-    'last-years.jpg',
-    '/mama.jpg',
-    '/money.png',
-    '/nikolay.jpg',
-    '/papa.jpg',
-    '/paris.jpg',
-    '/professor.jpg',
-    '/return-to-russia.jpg',
-    '/terner.jpg',
-    '/timeline.jpg',
-    '/vistav.jpg',
-    '/waterfall.jpg',
-    '/woln.jpg',
-    '/zapad.jpg'
-  ];
+  // const images: Array<string> = [
+  //   '/200th.png',
+  //   '/academy-art.png',
+  //   '/add.jpg',
+  //   '/admiral.jpg',
+  //   '/aiva.jpg',
+  //   '/alexander.jpg',
+  //   '/amster.jpg',
+  //   '/background.jpg',
+  //   '/boat.jpg',
+  //   '/brak.jpg',
+  //   '/brak2.jpg',
+  //   '/childhood.jpg',
+  //   '/crimea-and-europe.jpg',
+  //   '/death.jpg',
+  //   '/favicon.ico',
+  //   '/favicon-196x196.png',
+  //   '/feodosia.jpg',
+  //   '/flit.jpg',
+  //   '/gymnazy.jpg',
+  //   '/imperial-academy-of-arts.jpg',
+  //   '/kartina.jpg',
+  //   '/krim1.jpg',
+  //   '/krim2.jpg',
+  //   'last-years.jpg',
+  //   '/mama.jpg',
+  //   '/money.png',
+  //   '/nikolay.jpg',
+  //   '/papa.jpg',
+  //   '/paris.jpg',
+  //   '/professor.jpg',
+  //   '/return-to-russia.jpg',
+  //   '/terner.jpg',
+  //   '/timeline.jpg',
+  //   '/vistav.jpg',
+  //   '/waterfall.jpg',
+  //   '/woln.jpg',
+  //   '/zapad.jpg'
+  // ];
 
   const gradualIncrease = (): void => {
     const increase = async (): Promise<void> => {
@@ -121,12 +121,15 @@ useHead({
   .text-solid {
     font-size: 2.7rem;
     font-weight: 600;
+    width: 100vw;
+    text-align: center;
     display: inline-block;
     overflow: hidden;
     transition: opacity 0.1s ease;
   }
 
   .loader-message {
+    width: 100vw;
     cursor: pointer;
     position: absolute;
     bottom: 2.5vw;
