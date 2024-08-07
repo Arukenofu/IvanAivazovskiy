@@ -1,75 +1,36 @@
-# Nuxt 3 Minimal Starter
+# Introduction
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This project is dedicated to the 200th anniversary of the birth of Ivan Aivazovsky, a prominent Russian Romantic painter who is most famous for his seascapes. This repository contains various resources, including biographical information, artworks, and related historical context.
 
-## Setup
+![img.png](img.png)
 
-Make sure to install the dependencies:
+## Deployment
+You can view the live version of this project at: https://ivanaivazovskiy.netlify.app
 
+## Installation
+
+Clone the repository
+```bash 
+git clone https://github.com/Arukenofu/IvanAivazovskiy.git
+```
+
+Navigate to the project directory
 ```bash
-# npm
+cd ivan-aivazovsky-main
+```
+
+Install dependencies
+```bash
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
+## Usage
+After installing the dependencies, you can start the project by running:
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+Open your browser and go to http://localhost:3000 to view the project.
 
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Reference
+Current application get reference by https://ivanaivazovsky.life/

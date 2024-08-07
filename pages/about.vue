@@ -53,13 +53,14 @@ const route: Array<route> = [
   </div>
 
   <div class="about center-x">
-    <p>Разработано группой Ис-21-14б студентом Аронов Ернар</p>
+    <p>Разработано <a href="https://github.com/Arukenofu">@Arukenofu</a> в целях обучения.</p>
   </div>
 </template>
 
 <style scoped lang="scss">
 .container {
   min-width: 350px;
+
   p {
     font-size: 1.05rem;
     font-weight: 500;
@@ -73,7 +74,11 @@ const route: Array<route> = [
   margin-top: 20px;
   text-align: center;
   bottom: 50px;
-  font-family: 'Playfair', sans-serif;
+  font-size: 1.1rem;
+
+  a {
+    color: #a9a9f6;
+  }
 }
 
 @media screen and (max-width: 700px) {
@@ -81,7 +86,7 @@ const route: Array<route> = [
     font-size: 0.9rem;
   }
 
-  .about{
+  .about {
     width: 100%;
   }
 }

@@ -1,77 +1,100 @@
 <script setup lang="ts">
 import gsap from "gsap";
 
-const loadingProgressOpacity: Ref<number> = ref(0.1);
-const isLoaded: Ref<boolean> = ref(false)
+function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-onMounted(async () => {
-  await gsap.from(".preload", {
+const images: string[] = [
+  '/200th.png',
+  '/academy-art.jpg',
+  '/add.jpg',
+  '/admiral.jpg',
+  '/aiva.jpg',
+  '/alexander.jpg',
+  '/amster.jpg',
+  '/background.jpg',
+  '/boat.jpg',
+  '/brak.jpg',
+  '/brak2.jpg',
+  '/childhood.jpg',
+  '/crimea-and-europe.jpg',
+  '/death.jpg',
+  '/favicon.ico',
+  '/favicon-196x196.png',
+  '/feodosia.jpg',
+  '/flit.jpg',
+  '/gymnazy.jpg',
+  '/imperial-academy-of-arts.jpg',
+  '/kartina.jpg',
+  '/krim1.jpg',
+  '/krim2.jpg',
+  '/last-years.jpg',
+  '/mama.jpg',
+  '/money.png',
+  '/nikolay.jpg',
+  '/papa.jpg',
+  '/paris.jpg',
+  '/professor.jpg',
+  '/return-to-russia.jpg',
+  '/terner.jpg',
+  '/timeline.jpg',
+  '/vistav.jpg',
+  '/waterfall.jpg',
+  '/woln.jpg',
+  '/zapad.jpg'
+];
+
+const loadingProgressOpacity = ref<number>(0.1);
+let loadedImages = 0;
+
+const isLoaded = ref<boolean>(false);
+
+function updateProgress() {
+  gsap.to(".text-solid", {
+    opacity: 0.1 + 0.9 * (loadedImages / images.length)
+  })
+}
+
+async function onEnded() {
+  await gsap.to(".appear-loading", {
     opacity: 0,
-    delay: 1,
-    duration: 2
+    duration: 1
   });
 
-  await new Promise(resolve => setTimeout(resolve, 3000))
+  isLoaded.value = true;
+}
 
-  // const images: Array<string> = [
-  //   '/200th.png',
-  //   '/academy-art.png',
-  //   '/add.jpg',
-  //   '/admiral.jpg',
-  //   '/aiva.jpg',
-  //   '/alexander.jpg',
-  //   '/amster.jpg',
-  //   '/background.jpg',
-  //   '/boat.jpg',
-  //   '/brak.jpg',
-  //   '/brak2.jpg',
-  //   '/childhood.jpg',
-  //   '/crimea-and-europe.jpg',
-  //   '/death.jpg',
-  //   '/favicon.ico',
-  //   '/favicon-196x196.png',
-  //   '/feodosia.jpg',
-  //   '/flit.jpg',
-  //   '/gymnazy.jpg',
-  //   '/imperial-academy-of-arts.jpg',
-  //   '/kartina.jpg',
-  //   '/krim1.jpg',
-  //   '/krim2.jpg',
-  //   'last-years.jpg',
-  //   '/mama.jpg',
-  //   '/money.png',
-  //   '/nikolay.jpg',
-  //   '/papa.jpg',
-  //   '/paris.jpg',
-  //   '/professor.jpg',
-  //   '/return-to-russia.jpg',
-  //   '/terner.jpg',
-  //   '/timeline.jpg',
-  //   '/vistav.jpg',
-  //   '/waterfall.jpg',
-  //   '/woln.jpg',
-  //   '/zapad.jpg'
-  // ];
-
-  const gradualIncrease = (): void => {
-    const increase = async (): Promise<void> => {
-      if (loadingProgressOpacity.value <= 1) {
-        (loadingProgressOpacity.value += 0.003)
-        setTimeout(increase, 10);
-      } else {
-        await gsap.to(".appear-loading", {
-          opacity: 0,
-          duration: 1
-        })
-
-        isLoaded.value = true;
-      }
+function loadImage(url: string) {
+  return new Promise( (resolve) => {
+    const image = new Image();
+    image.src = url;
+    image.onload = () => {
+      resolve(image);
+      updateProgress();
+      loadedImages++;
+    };
+    image.onerror = () => {
+      resolve(null);
+      updateProgress();
+      console.error(`Failed to load image: ${url}`);
+      loadedImages++;
     }
+  })
+}
 
-    increase();
-  }
+onMounted(async () => {
+  await gsap.to(".preload", {
+    opacity: 1,
+    delay: 1,
+    duration: 2
+  });   
 
-  gradualIncrease();
+  await Promise.all(images.map((url) => {
+    loadImage(url)
+  })).then(() => {
+    onEnded()
+  });
 })
 
 const preloadLeave = (): void => {
@@ -98,7 +121,7 @@ useHead({
   <keep-alive>
     <transition @leave="preloadLeave()">
       <main role="main">
-        <div class="preload" v-if="!isLoaded" key="preload">
+        <div class="preload" key="preload" v-if="!isLoaded">
           <div class="preloader center-absolute appear-loading">
             <p class="text-solid" :style="`opacity: ${loadingProgressOpacity}`">I. Aivazovsky</p>
           </div>
@@ -108,6 +131,7 @@ useHead({
             Подождите
           </div>
         </div>
+
         <nuxt-page v-else />
       </main>
     </transition>
@@ -118,6 +142,8 @@ useHead({
 @import "styles/global";
 
 .preload {
+  opacity: 0;
+
   .text-solid {
     font-size: 2.7rem;
     font-weight: 600;
