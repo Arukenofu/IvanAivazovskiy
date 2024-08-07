@@ -46,14 +46,16 @@ const images: string[] = [
 ];
 
 const loadingProgressOpacity = ref<number>(0.1);
-let loadedImages = 0;
+let loadedImages = ref(0);
 
 const isLoaded = ref<boolean>(false);
 
-function updateProgress() {
-  gsap.to(".text-solid", {
-    opacity: 0.1 + 0.9 * (loadedImages / images.length)
-  })
+async function updateProgress() {
+  await delay(10);
+
+  gsap.to('.text-solid', {
+    opacity: 0.1 + 0.9 * (loadedImages.value / images.length),
+  });
 }
 
 async function onEnded() {
@@ -65,20 +67,20 @@ async function onEnded() {
   isLoaded.value = true;
 }
 
-function loadImage(url: string) {
-  return new Promise( (resolve) => {
+async function loadImage(url: string) {
+  return new Promise(async (resolve) => {
     const image = new Image();
     image.src = url;
-    image.onload = () => {
+    image.onload = async () => {
+      await updateProgress();
+      loadedImages.value++;
       resolve(image);
-      updateProgress();
-      loadedImages++;
     };
-    image.onerror = () => {
-      resolve(null);
-      updateProgress();
+    image.onerror = async () => {
       console.error(`Failed to load image: ${url}`);
-      loadedImages++;
+      await updateProgress();
+      loadedImages.value++;
+      resolve(null);
     }
   })
 }
@@ -88,13 +90,11 @@ onMounted(async () => {
     opacity: 1,
     delay: 1,
     duration: 2
-  });   
+  });
 
   await Promise.all(images.map((url) => {
     loadImage(url)
-  })).then(() => {
-    onEnded()
-  });
+  }));
 })
 
 const preloadLeave = (): void => {
@@ -103,6 +103,12 @@ const preloadLeave = (): void => {
     duration: 2
   })
 }
+
+watch(loadedImages, (value) => {
+  if (value === images.length) {
+    onEnded();
+  }
+})
 
 useHead({
   title: 'Ivan Aivazovsky',
